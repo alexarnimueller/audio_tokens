@@ -2,11 +2,12 @@
 <html>
 
 <head>
-    <title>My experiment</title>
+    <title>Speaker clustering experiment</title>
     <script src="https://unpkg.com/jspsych@7.0.0"></script>
     <script src="js/jspsych-audio-tokens-v7.js"></script>
     <script src="js/audio-tokens.js"></script>
     <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@1.0.0"></script>
     <link href="https://unpkg.com/jspsych@7.0.0/css/jspsych.css" rel="stylesheet" type="text/css" />
 </head>
 
@@ -14,8 +15,8 @@
 </body>
 <script>
 
-    // Array with stimulus file paths
-    var stimuli = [
+    // Array with stimulus file paths for each experiment
+    var stimuli1 = [
         'data/1.wav',
         'data/2.wav',
         'data/3.wav',
@@ -24,7 +25,9 @@
         'data/6.wav',
         'data/7.wav',
         'data/8.wav',
-        'data/9.wav',
+        'data/9.wav'
+    ]
+    var stimuli2 = [
         'data/10.wav',
         'data/11.wav',
         'data/12.wav',
@@ -32,23 +35,58 @@
         'data/14.wav',
         'data/15.wav',
         'data/16.wav',
+        'data/17.wav',
+        'data/18.wav'
+    ]
+    var stimuli3 = [
+        'data/19.wav',
+        'data/20.wav',
+        'data/21.wav',
+        'data/22.wav',
+        'data/23.wav',
+        'data/24.wav',
+        'data/25.wav',
+        'data/26.wav',
+        'data/27.wav',
+        'data/28.wav',
+        'data/29.wav',
+        'data/30.wav',
     ]
 
-    var cluster_trial = {
+    var cluster1 = {
         type: jsPsychAudioTokens,
         ratingtype: 'cluster',
-        stimuli: stimuli,
+        stimuli: stimuli1,
+        num_speakers: 3,
+        force_listen: false,
+        loop: true
+    }
+    var cluster2 = {
+        type: jsPsychAudioTokens,
+        ratingtype: 'cluster',
+        stimuli: stimuli2,
+        num_speakers: 4,
+        force_listen: false,
+        loop: true
+    }
+    var cluster3 = {
+        type: jsPsychAudioTokens,
+        ratingtype: 'cluster',
+        stimuli: stimuli3,
+        num_speakers: 6,
         force_listen: false,
         loop: true
     }
 
     // Add all trials to a timeline array
     var timeline = [
-        cluster_trial,
+        cluster1,
+        cluster2,
+        cluster3,
     ]
 
     var jsPsych = initJsPsych({
-        show_progress_bar: true,
+        show_progress_bar: false,
         on_finish: function () {
             jsPsych.data.displayData();
         }

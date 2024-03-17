@@ -8,6 +8,10 @@ var jsPsychAudioTokens = (function (jspsych) {
         type: jspsych.ParameterType.OBJECT,
         default: ['file1.wav', 'file2.wav']
       },
+      num_speakers: {
+        type: jspsych.ParameterType.INT,
+        default: 0
+      },
       ratingtype: {
         type: jspsych.ParameterType.STRING, // BOOL, STRING, INT, FLOAT, FUNCTION, KEY, SELECT, HTML_STRING, IMAGE, AUDIO, VIDEO, OBJECT, COMPLEX
         default: 'cluster' // 'features', 'cluster' or 'similarity'
@@ -96,6 +100,9 @@ var jsPsychAudioTokens = (function (jspsych) {
       var html = ''
       html += '<div class="container" style="margin-bottom:25px">'
       html += '<div class="d-flex justify-content-center">'
+      html += '<p>Gruppiere die Stimmen (farbige Punkte) nach Sprecheridentit&auml;ten.</p>'
+      html += '<p>Aufnahmen mit einem Verbindungsstrich geh&ouml;ren zur gleichen Person.</p>'
+      html += '<p>Die Verbindung wird f&uuml;r den momentan aktiven Sprecher gezeigt, gelten aber weiterhin.</p>'
       html += '<div id="button-container" class="btn-group" style="margin-bottom:25px">'
       html += '</div>'
       html += '</div>'
@@ -117,9 +124,9 @@ var jsPsychAudioTokens = (function (jspsych) {
 
       // Generate data for graph
       var i
-      var num_speakers = trial.stimuli.length
+      var num_files = trial.stimuli.length
       var data = { 'nodes': [] }
-      for (i = 0; i < num_speakers; i++) {
+      for (i = 0; i < num_files; i++) {
         data.nodes.push({
           'id': 'item-' + String(i),
           'audiofile': trial.stimuli[i],
@@ -128,31 +135,9 @@ var jsPsychAudioTokens = (function (jspsych) {
       }
 
       // Generate graph
-      if (trial.ratingtype == 'cluster') {
-        var graph = new CircleSortGraph(
-          data, 'plot-speakers', 'audio-container', 'button-container', true, trial
-        )
-      } else if (trial.ratingtype == 'similarity') {
-        var graph = new AudioGraph(
-          data, 'plot-speakers', 'audio-container', 'button-container', true, trial
-        )
-      } else if (trial.ratingtype == 'features') {
-        var graph = new FeatureRatings(
-          data, 'plot-speakers', 'audio-container', 'button-container', true, trial
-        )
-      } else if (trial.ratingtype == 'features2d') {
-        var graph = new FeatureRatings2D(
-          data, 'plot-speakers', 'audio-container', 'button-container', true, trial
-        )
-      } else if (trial.ratingtype == 'categories') {
-        var graph = new FreesortGraph(
-          data, 'plot-speakers', 'audio-container', 'button-container', true, trial
-        )
-      } else if (trial.ratingtype == 'triplets') {
-        var graph = new TripletAudioGraph(
-          data, 'plot-speakers', 'audio-container', 'button-container', true, trial
-        )
-      }
+      var graph = new CircleSortGraph(
+        data, 'plot-speakers', 'audio-container', 'button-container', true, trial
+      )
 
       // Show graph
       graph.build()

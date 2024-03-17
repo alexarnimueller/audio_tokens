@@ -13,14 +13,10 @@ class AudioGraph {
     this.opacity = params.opacity
     this.nextURL = params.nextURL
     this.loop = params.loop
+    this.num_speakers = params.num_speakers
     this.mute_key = params.mute_key
-    if (isJsPsych) {
-      this.buttonClass = "jspsych-btn"
-      this.submitResults = submitResultsJsPsych.bind(params)
-    } else {
-      this.buttonClass = "btn btn-primary"
-      this.submitResults = submitResults
-    }
+    this.buttonClass = "jspsych-btn"
+    this.submitResults = submitResultsJsPsych.bind(params)
 
     this.width = params.width
     this.height = this.width
@@ -274,7 +270,7 @@ class AudioGraph {
       .attr("class", "node")
       .attr("cx", function (d) { return d.x })
       .attr("cy", function (d) { return d.y })
-      .attr("fill", function (d, i) { return "blue" })
+      .attr("fill", function (d, i) { return "Tomato" })
       .attr("id", function (d) { return d.id })
       .attr("r", function (d, i) { return self.circle_size_1(self, d) })
       // .attr("r", this.circle_size_1())
@@ -540,8 +536,8 @@ class CircleSortGraph extends AudioGraph {
     this.num_in = 0
     this.num_clusters = 0
     this.last_cluster = 0
+    this.num_speakers = params.num_speakers
     this.clusterIndex = Array(self.num_items)
-    this.edgeIndex = Array(0)
   }
 
   get_num_in(self) {
@@ -638,7 +634,8 @@ class CircleSortGraph extends AudioGraph {
       results.push({
         'id': this.nodes[i].id, 'audiofile': this.nodes[i].audiofile,
         'values': [this.clusterIndex[i]],
-        'elapsed': this.audios[i].elapsed / this.audios[i].duration
+        'elapsed': this.audios[i].elapsed / this.audios[i].duration,
+        'num_speakers': this.num_speakers
       })
     }
     this.submitResults({
@@ -755,30 +752,6 @@ function requestAudioFiles(sentence_id, num_audiofiles, readyFcn) {
   });
 }
 
-function submitResults(results, nextURL = '') {
-  var submit_url = window.location.origin + '/post_trial'
-  $.ajax({
-    url: submit_url,
-    dataType: 'json',
-    type: 'post',
-    contentType: 'application/json',
-    data: JSON.stringify(results),
-    processData: false,
-    success: function (data, textStatus, jQxhr) {
-      // url = new URL(current_url)
-      // url.searchParams.set("numfiles",String(num_audiofiles))
-      if (nextURL == '') {
-        location.reload();
-      } else {
-        window.location.href = nextURL
-      }
-    },
-    error: function (jqXhr, textStatus, errorThrown) {
-      console.log(errorThrown);
-    }
-  });
-}
-
 function submitResultsJsPsych(results, nextURL) {
   // end trial
   // 'nextURL' variable is used to pass 'display_element' from jsPsych...
@@ -800,11 +773,11 @@ function submitResultsJsPsych(results, nextURL) {
       trial_data.ratings.push(results.results[i].values)
     }
   }
+
+  // inform about correct groups
+  let unique = [...new Set(trial_data.ratings)];
+  alert("Du hast " + unique.length + " verschiedene Sprecher erkannt. Total sind es " + results.results[0].num_speakers + " Sprecher.");
+
   nextURL.innerHTML = '';
-  var version = this.jsPsych.version()
-  if (parseInt(version.split('.')[0]) >= 7) {
-    this.jsPsych.finishTrial(trial_data);
-  } else {
-    jsPsych.finishTrial(trial_data);
-  }
+  this.jsPsych.finishTrial(trial_data);
 }
