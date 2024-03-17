@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>My experiment</title>
+    <script src="https://unpkg.com/jspsych@7.0.0"></script>
+    <script src="js/jspsych-audio-tokens-v7.js"></script>
+    <script src="js/audio-tokens.js"></script>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <link href="https://unpkg.com/jspsych@7.0.0/css/jspsych.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+</body>
+<script>
+
+    // Array with stimulus file paths
+    var stimuli = [
+        'data/1.wav',
+        'data/2.wav',
+        'data/3.wav',
+        'data/4.wav',
+        'data/5.wav',
+        'data/6.wav',
+        'data/7.wav',
+        'data/8.wav',
+        'data/9.wav',
+        'data/10.wav',
+        'data/11.wav',
+        'data/12.wav',
+        'data/13.wav',
+        'data/14.wav',
+        'data/15.wav',
+        'data/16.wav',
+    ]
+
+    var cluster_trial = {
+        type: jsPsychAudioTokens,
+        ratingtype: 'cluster',
+        stimuli: stimuli,
+        force_listen: false,
+        loop: true
+    }
+
+    // Add all trials to a timeline array
+    var timeline = [
+        cluster_trial,
+    ]
+
+    var jsPsych = initJsPsych({
+        show_progress_bar: true,
+        on_finish: function () {
+            jsPsych.data.displayData();
+        }
+    });
+
+    jsPsych.run(timeline);
+
+</script>
+
+</html>
