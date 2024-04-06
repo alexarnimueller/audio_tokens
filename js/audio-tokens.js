@@ -46,10 +46,12 @@ class AudioGraph {
 
   }
 
+  // size of each audio circle
   circle_size_1(self, d) {
     return 10
   }
 
+  // size of hovered circle
   circle_size_2(self, d) {
     return self.circle_size_1(self, d) + 2
   }
@@ -201,15 +203,12 @@ class AudioGraph {
       .style("fill", "none")
   }
 
-  colorSelect(self, i, colorpalette) {
+  colorSelect(self, i) {
+    var colorpalette = this.get_colorpalette(self);
     return colorpalette(i)
   }
 
   draw() {
-
-    var edgeUpdate = this.edgeUpdate
-    // var edgeHide = this.edgeHide
-
     var html = '<svg id="' + this.parentId + '-svg" width="' + this.width + '" height="' + this.height + '">'
     document.getElementById(this.parentId).innerHTML += html
     this.svg = document.getElementById(this.parentId + '-svg')
@@ -218,13 +217,7 @@ class AudioGraph {
 
     this.drawBorder(svg)
 
-    var nodes = this.nodes
-    var links = this.links
-
     var self = this
-
-    var colorpalette = this.get_colorpalette(self)
-
     this.edges = this.draw_edgelines(self, svg)
     this.circles = this.draw_nodes(self, svg)
 
@@ -264,24 +257,21 @@ class AudioGraph {
   }
 
   draw_nodes(self, svg) {
+    var colorpalette = self.get_colorpalette();
     var circles = svg.selectAll("node")
-      .data(self.nodes).enter()
-      .append("circle")
-      .attr("class", "node")
-      .attr("cx", function (d) { return d.x })
-      .attr("cy", function (d) { return d.y })
-      .attr("fill", function (d, i) { return "Tomato" })
-      .attr("id", function (d) { return d.id })
-      .attr("r", function (d, i) { return self.circle_size_1(self, d) })
-      // .attr("r", this.circle_size_1())
-      .style("opacity", this.opacity)
-      .style("stroke", 'black')
-      .style("stroke-width", self.style.border_width_1)
+                     .data(self.nodes).enter()
+                     .append("circle")
+                     .attr("class", "node")
+                     .attr("cx", function(d) {return d.x})
+                     .attr("cy", function(d) {return d.y})
+                     .attr("fill", function(d, i) {return "gray"})
+                     .attr("id", function(d) {return d.id})
+                     .attr("r", function(d, i) {return self.circle_size_1(self, d)})
+                     // .attr("r", this.circle_size_1())
+                     .style("opacity", this.opacity)
+                     .style("stroke", 'black')
+                     .style("stroke-width", self.style.border_width_1)
     return circles
-  }
-
-  num_colors() {
-    return this.num_items
   }
 
   setupHover() {
@@ -502,7 +492,6 @@ class AudioGraph {
       d3.select(this).attr("stroke", stroke_params[0])
       d3.select(this).attr("stroke-width", stroke_params[1])
     });
-
   }
 
   edgeShow(self, d, i, x, y) {
@@ -613,14 +602,15 @@ class CircleSortGraph extends AudioGraph {
         d3.select(this).attr("x2", d.x = x).attr("y2", d.y = y);
       }
       if (
-        (cluster > 0) &
-        (
-          ((self.clusterIndex[l.target] == cluster) & (self.clusterIndex[l.source] == cluster)) |
+          ((self.clusterIndex[l.target] > 0) & (self.clusterIndex[l.source] > 0)) &
+          ((self.clusterIndex[l.target] == self.clusterIndex[l.source]) |
           ((l.target == i) & (self.clusterIndex[l.source] == cluster)) |
-          ((self.clusterIndex[l.target] == cluster) & (l.source == i))
-        )) {
+          ((self.clusterIndex[l.target] == cluster) & (l.source == i)))
+        )
+      {
         var stroke_params = self.getStrokeOn()
       } else {
+        // do the magic here
         var stroke_params = self.getStrokeOff()
       }
       d3.select(this).attr("stroke", stroke_params[0])
