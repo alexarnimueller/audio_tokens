@@ -100,7 +100,7 @@ var jsPsychAudioTokens = (function (jspsych) {
       var html = ''
       html += '<div class="container" style="margin-bottom:25px">'
       html += '<div class="d-flex container">'
-      html += '<p>Gruppiere die Aufnahmen (blaue Punkte) nach Sprechern.</p>'
+      html += '<p>Die Aufnahmen (blaue Punkte) geh&ouml;ren zu 3 unterschiedlichen Sprechern. Gruppiere sie.</p>'
       html += '<p>Aufnahmen mit einem Verbindungsstrich werden zur gleichen Person gez&auml;hlt.</p>'
       html += '<p>Klicke auf "ENDE", wenn du mit der Aufgabe fertig bist.</p>'
       html += '</div>'

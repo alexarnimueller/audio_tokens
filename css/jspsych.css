@@ -27,9 +27,11 @@
 }
 
 .jspsych-content {
-  max-width: 95%; /* this is mainly an IE 10-11 fix */
+  max-width: 95%;
+  /* this is mainly an IE 10-11 fix */
   text-align: center;
-  margin: auto; /* this is for overflowing content */
+  margin: auto;
+  /* this is for overflowing content */
 }
 
 .container-left {
@@ -80,6 +82,7 @@
   border-color: #a80d27;
 }
 
+
 /* only apply the hover style on devices with a mouse/pointer that can hover - issue #977 */
 @media (hover: hover) {
   .jspsych-btn:hover {
@@ -94,9 +97,9 @@
 }
 
 .jspsych-btn:disabled {
-  background-color: #f04864;
+  background-color: #aaa;
   color: #fff;
-  border-color: #f04864;
+  border-color: #aaa;
   cursor: not-allowed;
 }
 
@@ -109,9 +112,11 @@
   width: 100%;
   background: transparent;
 }
+
 .jspsych-slider:focus {
   outline: none;
 }
+
 /* track */
 .jspsych-slider::-webkit-slider-runnable-track {
   appearance: none;
@@ -124,6 +129,7 @@
   border-radius: 2px;
   border: 1px solid #aaa;
 }
+
 .jspsych-slider::-moz-range-track {
   appearance: none;
   width: 100%;
@@ -134,6 +140,7 @@
   border-radius: 2px;
   border: 1px solid #aaa;
 }
+
 .jspsych-slider::-ms-track {
   appearance: none;
   width: 99%;
@@ -144,6 +151,7 @@
   border-radius: 2px;
   border: 1px solid #aaa;
 }
+
 /* thumb */
 .jspsych-slider::-webkit-slider-thumb {
   border: 1px solid #666;
@@ -155,6 +163,7 @@
   -webkit-appearance: none;
   margin-top: -9px;
 }
+
 .jspsych-slider::-moz-range-thumb {
   border: 1px solid #666;
   height: 24px;
@@ -163,6 +172,7 @@
   background: #ffffff;
   cursor: pointer;
 }
+
 .jspsych-slider::-ms-thumb {
   border: 1px solid #666;
   height: 20px;
@@ -185,10 +195,12 @@
   width: 100%;
   line-height: 1em;
 }
+
 #jspsych-progressbar-container span {
   font-size: 14px;
   padding-right: 14px;
 }
+
 #jspsych-progressbar-outer {
   background-color: #eee;
   width: 50%;
@@ -198,6 +210,7 @@
   vertical-align: middle;
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
 }
+
 #jspsych-progressbar-inner {
   background-color: #aaa;
   width: 0%;

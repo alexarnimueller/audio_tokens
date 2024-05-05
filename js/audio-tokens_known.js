@@ -760,10 +760,6 @@ function submitResultsJsPsych(results, nextURL) {
     }
   }
 
-  // inform about correct groups
-  let unique = [...new Set(trial_data.ratings)];
-  alert("Du hast " + unique.length + " verschiedene Sprecher erkannt. Total sind es " + results.results[0].num_speakers + " Sprecher.");
-
   nextURL.innerHTML = '';
   this.jsPsych.finishTrial(trial_data);
 }
